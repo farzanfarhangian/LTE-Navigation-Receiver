@@ -29,7 +29,8 @@ class Rom_tables {
 
 extern Rom_tables ROM_TABLES;
 
-#define FS_LTE 30720000.0
+#define FS_LTE 30720000.0     // 30.72 MHz
+//#define FS_LTE 20240000.0
 #define N_RB_MAXDL 110
 
 #define CELL_DROP_THRESHOLD 400.0

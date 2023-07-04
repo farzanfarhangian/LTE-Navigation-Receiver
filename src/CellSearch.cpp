@@ -84,7 +84,7 @@ uint8 verbosity=1;
 
 // Simple usage screen.
 void print_usage() {
-  cout << "LTE CellSearch (" << BUILD_TYPE << ") help. 1.0 to " << MAJOR_VERSION << "." << MINOR_VERSION << "." << PATCH_LEVEL << ": An enhanced LTE Cell Scanner/tracker. Xianjun Jiao (putaoshu@msn.com)" << endl << endl;
+  cout << "LTE CellSearch (" << BUILD_TYPE << ") help. 1.0 to " << MAJOR_VERSION << "." << MINOR_VERSION << "." << PATCH_LEVEL << ": An enhanced LTE Cell Scanner/tracker. Farzan Farhangian farzan.farhangian@lassena.etsmtl.ca (forked from Xianjun Jiao, putaoshu@msn.com)" << endl << endl;
   cout << "CellSearch -s start_frequency [optional_parameters]" << endl;
   cout << "  Basic options" << endl;
   cout << "    -h --help" << endl;
@@ -448,7 +448,7 @@ void parse_commandline(
   }
 
   if (verbosity>=1) {
-    cout << "LTE CellSearch (" << BUILD_TYPE << ") beginning. 1.0 to " << MAJOR_VERSION << "." << MINOR_VERSION << "." << PATCH_LEVEL << ": An enhanced LTE Cell Scanner/tracker. Xianjun Jiao (putaoshu@msn.com)" << endl;
+    cout << "LTE CellSearch (" << BUILD_TYPE << ") beginning. 1.0 to " << MAJOR_VERSION << "." << MINOR_VERSION << "." << PATCH_LEVEL << ": An enhanced LTE Cell Scanner/tracker. Farzan Farhangian farzan.farhangian@lassena.etsmtl.ca (forked from Xianjun Jiao, putaoshu@msn.com)" << endl;
 
 // //    frequency information will be displayed in main() function.
 //    if (freq_start==freq_end) {
@@ -838,15 +838,17 @@ int config_bladerf(
       if (dev!=NULL) {bladerf_close(dev); dev = NULL; return(-1);}
   }
 
-  bladerf_lna_gain actual_lna_gain;
+
+  /*bladerf_lna_gain actual_lna_gain;
   status = bladerf_get_lna_gain(dev, &actual_lna_gain);
   if (status != 0) {
       printf("config_bladerf bladerf_get_lna_gain: Failed to get lna gain: %s\n",
               bladerf_strerror(status));
       if (dev!=NULL) {bladerf_close(dev); dev = NULL; return(-1);}
-  }
+  }*/
+
   char *lna_gain_str = NULL;
-  if (actual_lna_gain == BLADERF_LNA_GAIN_BYPASS) {
+  /*if (actual_lna_gain == BLADERF_LNA_GAIN_BYPASS) {
     lna_gain_str = (char *)"BLADERF_LNA_GAIN_BYPASS";
   } else if (actual_lna_gain == BLADERF_LNA_GAIN_MAX) {
     lna_gain_str = (char *)"BLADERF_LNA_GAIN_MAX";
@@ -854,10 +856,10 @@ int config_bladerf(
     lna_gain_str = (char *)"BLADERF_LNA_GAIN_MID";
   } else if (actual_lna_gain == BLADERF_LNA_GAIN_UNKNOWN) {
     lna_gain_str = (char *)"BLADERF_LNA_GAIN_UNKNOWN";
-  } else {
+  } else {*/
     lna_gain_str = (char *)"INVALID_BLADERF_LNA_GAIN";
-  }
-
+  //}
+  /*
   int actual_vga1_gain;
   status = bladerf_get_rxvga1(dev, &actual_vga1_gain);
   if (status != 0) {
@@ -872,9 +874,11 @@ int config_bladerf(
       printf("config_bladerf bladerf_get_rxvga2: Failed to get rxvga2 gain: %s\n",
               bladerf_strerror(status));
       if (dev!=NULL) {bladerf_close(dev); dev = NULL; return(-1);}
-  }
+  }*/
 
-  int actual_total_vga_gain = actual_vga1_gain + actual_vga2_gain;
+  int actual_vga2_gain = 0;
+  int actual_vga1_gain = 0;
+  int actual_total_vga_gain = 0;//actual_vga1_gain + actual_vga2_gain;
 
   status = bladerf_set_frequency(dev, BLADERF_MODULE_RX, (unsigned int)fc);
   if (status != 0) {
@@ -915,10 +919,8 @@ int config_bladerf(
 #endif
 
 // Main cell search routine.
-int main(
-  const int argc,
-  char * const argv[]
-) {
+int main(const int argc, char * const argv[]) 
+{
   // Command line parameters are stored here.
   double freq_start;
   double freq_end;

@@ -25,6 +25,12 @@ TARGET_LINK_LIBRARIES (CellSearch general LTE_MISC)
 TARGET_LINK_LIBRARIES (CellSearch debug itpp_debug ${common_link_libs})
 TARGET_LINK_LIBRARIES (CellSearch optimized itpp ${common_link_libs})
 
+# Create the cell search executable
+ADD_EXECUTABLE (CellSearchTracking CellSearchTracking.cpp)
+TARGET_LINK_LIBRARIES (CellSearchTracking general LTE_MISC)
+TARGET_LINK_LIBRARIES (CellSearchTracking debug itpp_debug ${common_link_libs})
+TARGET_LINK_LIBRARIES (CellSearchTracking optimized itpp ${common_link_libs})
+
 # Create the cell tracker
 ADD_EXECUTABLE (LTE-Tracker LTE-Tracker.cpp producer_thread.cpp tracker_thread.cpp searcher_thread.cpp display_thread.cpp)
 TARGET_LINK_LIBRARIES (LTE-Tracker general LTE_MISC)
@@ -50,5 +56,5 @@ TARGET_LINK_LIBRARIES (LTE-Tracker optimized itpp ${common_link_libs})
 #ADD_TEST(FullTest CellSearch -s 739000000 -l -d "${PROJECT_SOURCE_DIR}/test")
 #SET_TESTS_PROPERTIES(FullTest PROPERTIES PASS_REGULAR_EXPRESSION cell.ID..271)
 
-INSTALL( TARGETS CellSearch LTE-Tracker DESTINATION bin )
+INSTALL( TARGETS CellSearch CellSearchTracking LTE-Tracker DESTINATION bin )
 
